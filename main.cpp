@@ -18,5 +18,8 @@ int main() {
     
     std::cout << gradebook.report() << std::endl;
 
+    Gradebook gradebook2;
+
+    std::cout << gradebook2.report() << std::endl;
 return 0;
 }
