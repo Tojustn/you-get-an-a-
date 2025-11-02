@@ -15,7 +15,34 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2)
 
-add_executable(hello_test tests/hello_test.cpp src/hello.cpp)
-add_executable(main main.cpp src/hello.cpp)
+add_executable(test_assignment tests/test_assignment.cpp
+        src/assignment.cpp)
 
-target_link_libraries(hello_test PRIVATE Catch2::Catch2WithMain)
+add_executable(test_student tests/test_student.cpp
+        src/assignment.cpp
+        src/assignment_grade.cpp
+        src/student.cpp)
+
+add_executable(test_assignment_grade tests/test_assignment_grade.cpp
+        src/assignment.cpp
+        src/assignment_grade.cpp)
+
+add_executable(test_gradebook tests/test_gradebook.cpp
+        src/assignment.cpp
+        src/assignment_grade.cpp
+        src/gradebook.cpp
+        src/student.cpp)
+
+target_link_libraries(test_assignment PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(test_student PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(test_assignment_grade PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(test_gradebook PRIVATE Catch2::Catch2WithMain)
+
+# Main executable
+add_executable(main main.cpp
+        main.cpp
+        src/assignment.cpp
+        src/assignment_grade.cpp
+        src/gradebook.cpp
+        src/student.cpp
+        )
