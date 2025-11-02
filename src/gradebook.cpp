@@ -39,43 +39,24 @@ void Gradebook::add_assignment(std::string name, int points) {
 }
 
 std::string Gradebook::report() {
-    std::string output;
-    output += "Last_Name,First_Name,Student_Id";
-    for (Assignment* assignment : assignments) {
-        output += "," + assignment->name;
-    }
+    std::string output = "Last_Name,First_Name,Student_Id";
+    for (Assignment* a : assignments) output += "," + a->name;
     output += "\n";
 
-    for (Student* student : students) {
-        std::string first_name, last_name;
-        std::string name = student->name;
-        size_t space_pos = name.find(' ');
-        if (space_pos != std::string::npos) {
-            first_name = name.substr(0, space_pos);
-            last_name = name.substr(space_pos + 1);
-        } else {
-            first_name = name;
-            last_name = name;
-        }
-        output += last_name + "," + first_name + "," + student->id;
+    for (Student* s : students) {
+        size_t space = s->name.find(' ');
+        std::string first = (space != std::string::npos) ? s->name.substr(0, space) : s->name;
+        std::string last = (space != std::string::npos) ? s->name.substr(space + 1) : s->name;
+        output += last + "," + first + "," + s->id;
 
-        for (Assignment* assignment : assignments) {
-            bool found = false;
-            int found_grade = -1;
-            for (AssignmentGrade* grade : student->grades) {
-                if (grade->assignment == assignment) {
-                    found = true;
-                    found_grade = grade->grade;
-                }
+        for (Assignment* a : assignments) {
+            int grade = -1;
+            for (AssignmentGrade* g : s->grades) {
+                if (g->assignment == a) grade = g->grade;
             }
-            if (found) {
-                output += "," + std::to_string(found_grade);
-            } else {
-                output += ",none";
-            }
+            output += (grade != -1) ? "," + std::to_string(grade) : ",none";
         }
         output += "\n";
     }
     return output;
-
 }
